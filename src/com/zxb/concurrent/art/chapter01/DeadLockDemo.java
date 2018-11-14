@@ -16,6 +16,10 @@ public class DeadLockDemo {
 
     private static Lock lock = new Lock();
 
+    private String A = "A";
+
+    private String B = "B";
+
     public static void main(String[] args) {
 
         new DeadLockDemo().deadLock();
@@ -23,14 +27,14 @@ public class DeadLockDemo {
 
     private void deadLock() {
         Thread t1 = new Thread(() -> {
-            synchronized (lock) {
+            synchronized (A) {
                 try {
                     System.out.println("获取A锁");
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (lock){
+                synchronized (B){
                     System.out.println("获取B锁");
                 }
                 System.out.println("释放B锁");
@@ -39,14 +43,14 @@ public class DeadLockDemo {
         });
 
         Thread t2 = new Thread(() -> {
-            synchronized (lock) {
+            synchronized (B) {
                 try {
                     System.out.println("获取B锁");
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (lock) {
+                synchronized (A) {
                     System.out.println("获取A锁");
                 }
                 System.out.println("释放A锁");
