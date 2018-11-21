@@ -1,4 +1,4 @@
-package com.zxb.concurrent.art.chatper02;
+package com.zxb.concurrent.art.chapter02;
 
 import java.util.ArrayList;
 import java.util.List;
