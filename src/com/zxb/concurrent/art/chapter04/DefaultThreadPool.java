@@ -30,7 +30,7 @@ public class DefaultThreadPool<T extends Runnable> implements ThreadPool<T> {
     /**
      * 任务队列
      */
-    private final LinkedList<T> jobs = new LinkedList<>();
+    public final LinkedList<T> jobs = new LinkedList<>();
 
     /**
      * 工作者列表
@@ -58,6 +58,7 @@ public class DefaultThreadPool<T extends Runnable> implements ThreadPool<T> {
 
     /**
      * 初始化工作线程
+     *
      * @param defaultWorkerNumbers
      */
     private void initializeWorkers(int defaultWorkerNumbers) {
@@ -101,25 +102,68 @@ public class DefaultThreadPool<T extends Runnable> implements ThreadPool<T> {
     public void removeWorker(int num) {
         synchronized (jobs) {
             if (num >= this.workerNum) {
-
-
+                throw new IllegalArgumentException("beyond workNum");
             }
+            // 按照给定的数量停止Worker
+            int count = 0;
+            while (count <= num) {
+                Worker worker = workers.get(count);
+                if (workers.remove(worker)) {
+                    worker.shutdown();
+                    count++;
+                }
+            }
+            this.workerNum -= count;
         }
     }
 
     @Override
     public int getJobSize() {
-        return 0;
+        return jobs.size();
     }
 
-    static class Worker implements Runnable {
+    /**
+     * 工作者，负责消费任务
+     */
+    class Worker implements Runnable {
+
+        /**
+         * 是否工作
+         */
+        private volatile boolean running = true;
+
         @Override
         public void run() {
-
+            while (running) {
+                Runnable runnable;
+                synchronized (jobs) {
+                    // 如果工作者列表是空的，那么就wait
+                    while (jobs.isEmpty()) {
+                        try {
+                            jobs.wait();
+                        } catch (InterruptedException e) {
+                            // 感知到外部对Worker-Thread的中断操作，返回
+                            Thread.currentThread().interrupt();
+                            return;
+                        }
+                    }
+                    runnable = jobs.removeFirst();
+                }
+                if (runnable != null) {
+                    try {
+                        runnable.run();
+                    } catch (Exception e) {
+                        // 忽略Runnable执行中的Exception
+                    }
+                }
+            }
         }
 
+        /**
+         * 关闭线程
+         */
         public void shutdown() {
-
+            this.running = false;
         }
     }
 }
