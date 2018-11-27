@@ -7,7 +7,9 @@ package com.zxb.concurrent.art.chapter04;
 public class SimpleHttpServerTest {
 
     public static void main(String[] args) throws Exception {
-
-        SimpleHttpServer.start();
+        SimpleHttpServer server = new SimpleHttpServer();
+        server.setBasePath("E:\\workSpace\\JavaConcurrentArt\\resources\\html");
+        server.setPort(8080);
+        server.start();
     }
 }

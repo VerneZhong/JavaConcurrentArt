@@ -20,20 +20,20 @@ public class SimpleHttpServer {
     /**
      * SimpleHTTPService的根路径
      */
-    private static String basePath = "E:\\workSpace\\JavaConcurrentArt\\resources\\";
+    private static String basePath;
 
     private static ServerSocket serverSocket;
 
-    private static int PORT = 8080;
+    private static int PORT;
 
-    public static void setPort(int port) {
+    public void setPort(int port) {
         if (port <= 0) {
             throw new IllegalArgumentException("The port is invalid.");
         }
         SimpleHttpServer.PORT = port;
     }
 
-    public static void setBasePath(String basePath) {
+    public void setBasePath(String basePath) {
         if (basePath != null && new File(basePath).exists() && new File(basePath).isDirectory()) {
             SimpleHttpServer.basePath = basePath;
         } else {
@@ -41,7 +41,7 @@ public class SimpleHttpServer {
         }
     }
 
-    public static void start() throws Exception {
+    public void start() throws Exception {
         serverSocket = new ServerSocket(PORT);
         Socket socket = null;
         while ((socket = serverSocket.accept()) != null) {
@@ -61,7 +61,7 @@ public class SimpleHttpServer {
 
         @Override
         public void run() {
-            String line = null;
+            String line;
             BufferedReader br = null, reader = null;
             PrintWriter out = null;
             InputStream in = null;
