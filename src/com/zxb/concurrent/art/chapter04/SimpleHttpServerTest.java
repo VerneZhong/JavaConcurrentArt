@@ -8,7 +8,7 @@ public class SimpleHttpServerTest {
 
     public static void main(String[] args) throws Exception {
         SimpleHttpServer server = new SimpleHttpServer();
-        server.setBasePath("E:\\workSpace\\JavaConcurrentArt\\resources\\html");
+        server.setBasePath("D:\\WorkSpace\\JavaConcurrentArt\\resources\\html");
         server.setPort(8080);
         server.start();
     }

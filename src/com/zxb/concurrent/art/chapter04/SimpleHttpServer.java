@@ -80,7 +80,7 @@ public class SimpleHttpServer {
                         baos.write(i);
                     }
                     byte[] array = baos.toByteArray();
-                    out.println("HTTP/1.1 200 OK");
+                    out.println("HTTP/1.0 200 OK");
                     out.println("Server: Molly");
                     out.println("Content-Type: image/jpeg");
                     out.println("Content-Length: " + array.length);
@@ -89,7 +89,7 @@ public class SimpleHttpServer {
                 } else {
                     br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
                     out = new PrintWriter(socket.getOutputStream());
-                    out.println("HTTP/1.1 200 OK");
+                    out.println("HTTP/1.0 200 OK");
                     out.println("Server: Molly");
                     out.println("Content-Type: text/html;charset=UTF-8");
                     out.println("");
