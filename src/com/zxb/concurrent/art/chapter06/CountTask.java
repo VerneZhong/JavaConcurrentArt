@@ -1,5 +1,7 @@
 package com.zxb.concurrent.art.chapter06;
 
+import org.junit.Test;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
@@ -57,15 +59,15 @@ public class CountTask extends RecursiveTask<Integer> {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-
         ForkJoinPool pool = new ForkJoinPool();
 
         // 生成一个计算任务，负责计算 1+2+3+4
-        CountTask task = new CountTask(1, 10000);
+        CountTask task = new CountTask(1, 10);
 
         // 执行一个任务
         Future<Integer> result = pool.submit(task);
 
         System.out.println(result.get());
     }
+
 }
