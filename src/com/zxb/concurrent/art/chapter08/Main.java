@@ -13,10 +13,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println(ctlOf(6, 8));
+//        System.out.println(ctlOf(6, 8));
 
-        ThreadPoolExecutor pool = new ThreadPoolExecutor(4, 10, 5000L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+//        ThreadPoolExecutor pool = new ThreadPoolExecutor(4, 10, 5000L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 
+        String s = null;
+
+//        System.out.println("0".equals(s));
+
+        System.out.println(Runtime.getRuntime().availableProcessors());
 
     }
 
